@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+
+        ul {
+            list-style-type: lower-alpha;
+
+        }
+        li {
+            margin: 10px 0;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.5rem;
+
+        }
+       li> button {
+            margin-left: 10px;
+            width: 80px;
+            border-radius: 7px;
+            border: 1px solid black;
+            font-size: 12px;
+            background-color: burlywood;
+            font-weight: 900;
+
+        }
+        button:hover{
+            background-color: antiquewhite;
+        }
+        td>button{
+            width: 90px;
+            border-radius: 7px;
+            border: 1px solid black;
+            font-size: 12px;
+            background-color: rgb(211, 205, 204);
+            font-weight: 900;
+        
+        }
+        td{
+           box-sizing: border-box;
+           padding: 10px;
+        }
+        th{
+            background-color: rgb(147, 192, 110);
+            font-size: 20px;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <ul>
+        <li>Apple  <button>Edit</button><button>Delete</button></li>
+        <li>Banana  <button>Edit</button><button>Delete</button></li>
+        <li>Mango  <button>Edit</button><button>Delete</button></li>
+        <li>Orange  <button>Edit</button><button>Delete</button></li>
+        <li>Grapes  <button>Edit</button><button>Delete</button></li>
+       
+    </ul>
+<br><br><br>
+    <hr>
+<br><br><br>
+    <table width="100%" border="1px solid black">
+        <thead>
+            
+            <th>Id</th>
+            <th>name</th>
+            <th>age</th>
+            <th>course</th>
+            <th>marks</th>
+            <th>Edit Info</th>
+        </thead>
+            <tbody id="table-body">
+                
+                
+    </table>
+
+    <script>
+
+        const deleteButtons = document.querySelectorAll('button:nth-child(2)');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const li = this.parentElement;
+                li.parentElement.removeChild(li);
+            });
+        });
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                const li = this.parentElement;
+                if (this.textContent === 'Edit') {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.value = li.firstChild.textContent.trim();
+                    li.insertBefore(input, this);
+                    this.textContent = 'Save';
+                } else {
+                    const input = li.querySelector('input');
+                    if (input) {
+                        li.firstChild.textContent = input.value + ' ';
+                        li.removeChild(input);
+                        this.textContent = 'Edit';
+                    }
+                }
+            });
+        });
+
+
+
+
+        const students = [
+  {
+    id: 1,
+    name: "Ali Khan",
+    age: 20,
+    course: "Computer Science",
+    marks: 85
+  },
+  {
+    id: 2,
+    name: "Sara Ahmed",
+    age: 21,
+    course: "Software Engineering",
+    marks: 90
+  },
+  {
+    id: 3,
+    name: "Ahmed Raza",
+    age: 19,
+    course: "Information Technology",
+    marks: 78
+  },
+  {
+    id: 4,
+    name: "Ayesha Malik",
+    age: 22,
+    course: "Data Science",
+    marks: 88
+  },
+  {
+    id: 5,
+    name: "Usman Tariq",
+    age: 20,
+    course: "Artificial Intelligence",
+    marks: 92
+  }
+];
+
+tablebody=document.getElementById('table-body');
+for(let i=0;i<students.length;i++){
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${students[i].id}</td>
+        <td>${students[i].name}</td>
+        <td>${students[i].age}</td>
+        <td>${students[i].course}</td>
+        <td>${students[i].marks}</td>
+        <td><button id="edit">Edit</button></td>
+    `;
+    tablebody.appendChild(row);
+}
+ let btn = document.querySelectorAll('#edit');
+        btn.forEach(button => {
+            button.addEventListener('click', function() {
+                const tr = this.parentElement.parentElement;
+                if (this.textContent === 'Edit') {
+                    const tds = tr.querySelectorAll('td');
+                    for (let i = 0; i < tds.length - 1; i++) {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.value = tds[i].textContent.trim();
+                        tds[i].textContent = '';
+                        tds[i].appendChild(input);
+                    }
+                    this.textContent = 'Save';
+                } else {
+                    const tds = tr.querySelectorAll('td');
+                    for (let i = 0; i < tds.length - 1; i++) {
+                        const input = tds[i].querySelector('input');
+                        if (input) {
+                            tds[i].textContent = input.value;
+                        }
+                    }
+                    this.textContent = 'Edit';
+                }
+            });
+        });
+
+        
+       
+
+
+
+    </script>
+</body>
+</html>
